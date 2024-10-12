@@ -148,6 +148,7 @@ exports.login = async(req,res)=>{
 
 exports.changePassword = async(req,res)=>{
     //get data from req body
+    const {email,password,oldpassword,confirmPassword}=req.body;
     //get oldPwd,newPwd,confirmPwd,
     //validation
 

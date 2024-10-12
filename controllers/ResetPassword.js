@@ -11,7 +11,7 @@ exports.resetPasswordToken = async (req, res) => {
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: 'User Not Found!!'
+                message: 'User Not Found!! 1234'
             })
         }
         //generate token

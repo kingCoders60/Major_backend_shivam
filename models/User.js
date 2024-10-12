@@ -1,5 +1,4 @@
 const mongoose = required("mongoose");
-const nodemailer = required("nodemailer");
 const userSchema = new mongoose.Schema({
     firstName:{
         type:String,
