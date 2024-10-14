@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
         enum:["Admin","Student","Instructor"],
         required:true
     },
+    //noe this will be used as profile id
     additionalDetails:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,

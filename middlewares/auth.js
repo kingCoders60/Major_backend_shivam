@@ -15,7 +15,7 @@ exports.auth = async(req,res,next) =>{
         try{
             const decode = await jwt.verify(token,process.env.JWT_SECRET);
             console.log(decode);
-            req.user = decode;
+            req.user = decode; //hamne req.user ke andar is payload koo daal diya hai!!
         }
         catch(err){
             return res.status(401).json({

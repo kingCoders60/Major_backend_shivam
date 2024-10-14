@@ -1,6 +1,6 @@
 const Course = require("../models/Course");
 const Tag = require("../models/tags");
-const User = require("../models/User"); 
+const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 
 exports.createCourse = async (req, res) => {
@@ -55,7 +55,7 @@ exports.createCourse = async (req, res) => {
         // Add the new course to the user's courses
         await User.findByIdAndUpdate(
             { _id: instructorDetails._id },
-            { 
+            {
                 $push: { courses: newCourse._id },
             },
             { new: true }
@@ -78,26 +78,27 @@ exports.createCourse = async (req, res) => {
     }
 };
 
-exports.showAllCourses = async(req,res)=>{
-    try{
-        const allCourses = await Course.find({},{courseName:true,
-            price:true,
-            thumbnail:true,
-            instructor:true,
-            ratingAndReviews:true,
-            strudentsEnrolled:true,
+exports.showAllCourses = async (req, res) => {
+    try {
+        const allCourses = await Course.find({}, {
+            courseName: true,
+            price: true,
+            thumbnail: true,
+            instructor: true,
+            ratingAndReviews: true,
+            strudentsEnrolled: true,
         }).populate("instructor").exec();
         return res.status(200).json({
-            success:true,
-            message:'Data for all courses are fetched succesfully!',
-            data:allCourses,
+            success: true,
+            message: 'Data for all courses are fetched succesfully!',
+            data: allCourses,
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
-            success:false,
-            message:'Cannot Fetch course data',
-            error:error.message,
+            success: false,
+            message: 'Cannot Fetch course data',
+            error: error.message,
         })
     }
 }
