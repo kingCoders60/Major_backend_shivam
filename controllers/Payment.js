@@ -96,6 +96,47 @@ exports.verifySignature = async(req,res)=>{
             //fullfill the action
 
             //find the course and enroll 
+            const enrolledCourse = await Course.findOneAndUpdate(
+                {_id:courseId},
+                {$push:{studentsEnrolled:userId}},
+                {new:true}
+            );
+            if(!enrolledCourse){
+                return res.status(500).json({
+
+                });
+            }
+            console.log(enrolledStudent);
+            const enroledStudent = await User.findOneAndUpdate(
+                {_id:courseId},
+                {$push:{courses:courseId}},
+                {new:true}
+            );
+            console.log()
+            //mail send kardo ab..
+            let info = await transporter.sendMail({
+                from: 'StudyNotion || CodeHelp - by Babbar',
+                to: `${email}`,
+                subject: `${title}`,
+                html: `${body}`,
+                })
+                console.log(info);
+                return info;
+
+                const emailResponse = await mailSender(
+                    enrolledStudent.email,
+                    "Congratulations from CodeHelp",
+                    "Congratulations, you are onboarded into new CodeHelp Course",
+                    );
+
+                    console.log(emailResponse);
+                    return res.status.json({
+                        success:true,
+                        
+                    })
+                    I
+
+                
         }
         catch(error){
 
