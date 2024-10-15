@@ -49,7 +49,7 @@ exports.capturePayment = async (req,res)=>{
     const amount = course.price;
     const currency = "INR";
 
-    const optional={
+    const options={
         amount: amount*100,
         currency,
         reciept:Math.random(Date.now()).toString(),
@@ -57,5 +57,28 @@ exports.capturePayment = async (req,res)=>{
             courseId:course_id,
             userId,
         }
+    };
+    try{
+        const paymentResponse = await instance.orders.create(options);
+        console.log(paymentResponse);
+
+        return res.status(200).json({
+            success:true,
+            courseName:course.courseName,
+            courseDescription:course.courseDescription,
+            thumbnail:course.thumbnail,
+            orderId:paymentResponse.id,
+            currency:paymentResponse.currency,
+            amount:paymentResponse.amount,
+        })
+    }catch(error){
+        console.log(error);
+        res.json({
+            success:false,
+            message:"Could not initiate order",
+        })
     }
 };
+
+
+exports
