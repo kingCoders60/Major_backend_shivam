@@ -81,4 +81,25 @@ exports.capturePayment = async (req,res)=>{
 };
 
 
-exports
+exports.verifySignature = async(req,res)=>{
+    const webhookSecret = "12345678";
+    const signature = req.headers["x-raqzorpay-signature"];
+    const shasum= crypto.createHmac("sha256",webhookSecret);
+    shasum.update(JSON.stringify(req.body));
+    const digest = shasum.digest("hex");
+
+    if(signature == digest){
+        console.log("Payment is Authorized");
+        const {courseId,userId}=req.body.payload.payment.entity.notes
+
+        try{
+            //fullfill the action
+
+            //find the course and enroll 
+        }
+        catch(error){
+
+        }
+    }
+
+};
