@@ -33,7 +33,9 @@ exports.updateProfile= async (req,res) =>{
     }
     catch(error){
         return res.status(500).json({
-
+            success:false,
+            message:'Error Occured 500! try again Later',
+            error:error.message,
         })
     };
 };

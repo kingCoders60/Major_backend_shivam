@@ -1,0 +1,9 @@
+Razor Pay...
+jab bhi hame order api banana hai using 
+razor pay .. we need to use OrderAPI...
+
+currency ko actual currency * 100 me send hoga tabhi wo .00 hoga!!
+
+Capture and Refund Settting..
+
+TODO: Category schema

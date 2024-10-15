@@ -37,7 +37,7 @@ exports.createSection = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json({
-            success: false,
+            success: false, 
             message: 'Server Error',
             error: error.message,
         });
@@ -60,7 +60,8 @@ exports.updateSchema = async (req,res)=>{
         //return data
         return res.status(200).json({
             success:true,
-            message:'Section Updtaed Successfully!!'
+            message:'Section Updtaed Successfully!!',
+            section
         })
     }
     catch(error){
