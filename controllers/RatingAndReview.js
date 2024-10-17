@@ -81,11 +81,46 @@ const RatingAndReview = require("../models/RatingAndReview");
             {
                 $group:{
                     _id:null,//isme jitne bhi entry aaya tha sab aa jayega..
-                    
+                    averageRating:{ $avg: "rating"},
                 }
             }
         ])
+        if(result.length>0){
+            return res.status(200).json({
+                success:true,
+                averageRating:result[0].averageRating,
+            })
+        }
+        //if(no rating exist)
+        return res.status(200).json({
+            success:true,
+            message:'Average Rating is 0, now rating is given till now.'
+        })
     }catch(error){
 
     }
  }
+
+ //getting all ratingAndReviews
+ //HW)Course Id ke along sare rating lane hai
+exports.getAll = async (req,res)=>{
+    try{
+         const allReview = await RatingAndReview.find({}).sort({rating:"desc"})
+                            .populate({
+                                path:"user",
+                                select:"firstName lastName email image",
+                            })
+                            .populate({
+                                path:"course",
+                                select:"courseName",
+                            })
+                            .exec();
+        return res.ststus(200).json({
+            success:true,
+            message:"All revires frtched successfully!",
+            allReview,
+        })
+    }catch(error){
+
+    }
+}

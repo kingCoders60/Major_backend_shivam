@@ -44,3 +44,39 @@ exports.showAllCategory = async (req, res) => {
     }
 }
 //top selling course khud se karo..
+
+exports.categoryPageDetails = async (req,res)=>{
+    try{
+        //
+        selectedCategory  = await Category.findById(categoryId).populate("courses").exec();
+
+        //validation
+        if(!selectedCategory){
+            return res.status(400).json({
+                success:false,
+                message:"Data Not found!!"
+            });
+        }
+
+        const differentCategory = await Category.find({
+            _id:{$ne:categoryId},
+        }).populate("courses")
+        .exec();
+
+        return res.status(200).json({
+            success:true,
+            data:{
+                selectedCategory,
+                differentCategory,
+            }
+        })
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:"Error Ocuured in Category.js ",
+            error:error.message,
+        })
+    }
+}
+
+//top selling course khud se karo..
