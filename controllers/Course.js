@@ -102,3 +102,12 @@ exports.showAllCourses = async (req, res) => {
         })
     }
 }
+
+exports.getCourseDetail = async(req,res)=>{
+    try{
+
+    }
+    catch(error){
+         
+    }
+}

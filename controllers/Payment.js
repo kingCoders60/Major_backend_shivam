@@ -4,8 +4,6 @@ const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/template/courseEnrollmentEmail");
 
-
-
 //capture the payment and initialise the Razorpay Order
 exports.capturePayment = async (req,res)=>{
     try{
@@ -14,7 +12,7 @@ exports.capturePayment = async (req,res)=>{
         const userId = req.user.body;
         //validation
         //validCourse
-        if(!course_id){
+        if(!course_id){ 
             return res.json({
                 success:false,
                 message:'Please Provide Valid Course id'
@@ -64,7 +62,7 @@ exports.capturePayment = async (req,res)=>{
 
         return res.status(200).json({
             success:true,
-            courseName:course.courseName,
+            courseName:Course.courseName,
             courseDescription:course.courseDescription,
             thumbnail:course.thumbnail,
             orderId:paymentResponse.id,
@@ -80,7 +78,7 @@ exports.capturePayment = async (req,res)=>{
     }
 };
 
-
+//ab jo likhenge wo razorpay ka syntax hai..ise yaad karne kekoi zarurat nei hai..
 exports.verifySignature = async(req,res)=>{
     const webhookSecret = "12345678";
     const signature = req.headers["x-raqzorpay-signature"];
@@ -98,12 +96,13 @@ exports.verifySignature = async(req,res)=>{
             //find the course and enroll 
             const enrolledCourse = await Course.findOneAndUpdate(
                 {_id:courseId},
-                {$push:{studentsEnrolled:userId}},
+                {$push:{studentsEnrolled:serId}},
                 {new:true}
             );
             if(!enrolledCourse){
                 return res.status(500).json({
-
+                    success:false,
+                    message:'No enrolled Courses..',
                 });
             }
             console.log(enrolledStudent);
@@ -112,7 +111,7 @@ exports.verifySignature = async(req,res)=>{
                 {$push:{courses:courseId}},
                 {new:true}
             );
-            console.log()
+            console.log(enroledStudent)
             //mail send kardo ab..
             let info = await transporter.sendMail({
                 from: 'StudyNotion || CodeHelp - by Babbar',
@@ -121,25 +120,26 @@ exports.verifySignature = async(req,res)=>{
                 html: `${body}`,
                 })
                 console.log(info);
-                return info;
-
+                //this following down is just a template!!
                 const emailResponse = await mailSender(
                     enrolledStudent.email,
                     "Congratulations from CodeHelp",
                     "Congratulations, you are onboarded into new CodeHelp Course",
-                    );
+                        );
 
                     console.log(emailResponse);
                     return res.status.json({
                         success:true,
-                        
+
                     })
                     I
-
-                
         }
         catch(error){
-
+            return res.status(500).json({
+                success:false,
+                message:"Error Occured at payment..",
+                error:error.messeage
+            })
         }
     }
 

@@ -25,7 +25,7 @@ const courseSchema = new mongoose.Schema({
     },
     price:{
         type:Number,
-    },
+    }, 
     tag:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
